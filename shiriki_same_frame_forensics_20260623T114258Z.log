@@ -1,0 +1,1435 @@
+Started: 2026-06-23T11:42:58+00:00
+Namespace: camera-solution
+H264 camera: a650a349-63df-4a07-9a99-b2d4b7a18e23
+H265 camera: aa8494d5-038b-4ed0-9dad-d1483664aa56
+EdgeVision pod: edgevision-ai-toolkit2-5597b9c548-22mtw
+Worker pod: camera-ai-worker-fd4c9c658-cwqm7
+
+================================================================================
+Current pods
+================================================================================
+NAME                                      READY   STATUS    RESTARTS   AGE    IP           NODE          NOMINATED NODE   READINESS GATES
+edgevision-ai-toolkit2-5597b9c548-22mtw   1/1     Running   0          16h    10.42.0.43   ared-distro   <none>           <none>
+go2rtc-7b5f95945b-jm7fg                   1/1     Running   0          16h    10.42.0.56   ared-distro   <none>           <none>
+camera-frontend-787cf9ff4d-hxlkw          1/1     Running   0          16h    10.42.0.48   ared-distro   <none>           <none>
+camera-ai-worker-fd4c9c658-cwqm7          1/1     Running   0          128m   10.42.0.80   ared-distro   <none>           <none>
+camera-backend-fcf587c7-h24mj             1/1     Running   0          16h    10.42.0.46   ared-distro   <none>           <none>
+
+================================================================================
+Run real worker rockchip-mpp-diagnostics if present
+================================================================================
+## gst-launch-1.0 --version
+gst-launch-1.0 version 1.24.2
+GStreamer 1.24.2
+https://launchpad.net/ubuntu/+source/gstreamer1.0
+
+## gst-inspect-1.0 mppvideodec
+Factory Details:
+  Rank                     primary + 1 (257)
+  Long-name                Rockchip's MPP video decoder
+  Klass                    Decoder/Video
+  Description              Multicodec (HEVC / AVC / VP8 / VP9) hardware decoder
+  Author                   Randy Li <randy.li@rock-chips.com>, Jeffy Chen <jeffy.chen@rock-chips.com>
+
+Plugin Details:
+  Name                     rockchipmpp
+  Description              Rockchip Mpp Video Plugin
+  Filename                 /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstrockchipmpp.so
+  Version                  1.14.4
+  License                  LGPL
+  Source module            gst-rockchip
+  Binary package           GStreamer Rockchip Plug-ins
+  Origin URL               Unknown package origin
+
+GObject
+ +----GInitiallyUnowned
+       +----GstObject
+             +----GstElement
+                   +----GstVideoDecoder
+                         +----GstMppDec
+                               +----GstMppVideoDec
+
+Pad Templates:
+  SINK template: 'sink'
+    Availability: Always
+    Capabilities:
+      video/x-h264
+          stream-format: { (string)avc, (string)avc3, (string)byte-stream }
+              alignment: { (string)au }
+                 parsed: true
+      video/x-h265
+          stream-format: { (string)hvc1, (string)hev1, (string)byte-stream }
+              alignment: { (string)au }
+                 parsed: true
+      video/mpeg
+            mpegversion: { (int)1, (int)2, (int)4 }
+                 parsed: true
+           systemstream: false
+      video/x-vp8
+      video/x-vp9
+  
+  SRC template: 'src'
+    Availability: Always
+    Capabilities:
+      video/x-raw
+                 format: { (string)NV12, (string)NV16, (string)NV12_10LE40, (string)NV12, (string)NV21, (string)I420, (string)YV12, (string)NV16, (string)NV61, (string)BGR16, (string)RGB, (string)BGR, (string)RGBA, (string)BGRA, (string)RGBx, (string)BGRx }
+                  width: [ 1, 2147483647 ]
+                 height: [ 1, 2147483647 ]
+              framerate: [ 0/1, 2147483647/1 ]
+      video/x-raw
+                 format: { (string)NV12, (string)NV16, (string)NV12_10LE40 }
+                  width: [ 1, 2147483647 ]
+                 height: [ 1, 2147483647 ]
+              framerate: [ 0/1, 2147483647/1 ]
+               arm-afbc: 1
+
+Element has no clocking capabilities.
+Element has no URI handling capabilities.
+
+Pads:
+  SINK: 'sink'
+    Pad Template: 'sink'
+  SRC: 'src'
+    Pad Template: 'src'
+
+Element Properties:
+
+  arm-afbc            : Prefer ARM AFBC compressed format
+                        flags: readable, writable
+                        Boolean. Default: false
+  
+  automatic-request-sync-point-flags: Flags to use when automatically requesting sync points
+                        flags: readable, writable
+                        Flags "GstVideoDecoderRequestSyncPointFlags" Default: 0x00000003, "corrupt-output+discard-input"
+                           (0x00000001): discard-input    - GST_VIDEO_DECODER_REQUEST_SYNC_POINT_DISCARD_INPUT
+                           (0x00000002): corrupt-output   - GST_VIDEO_DECODER_REQUEST_SYNC_POINT_CORRUPT_OUTPUT
+  
+  automatic-request-sync-points: Automatically request sync points when it would be useful
+                        flags: readable, writable
+    mpp[15744]: mpp_platform: client 1 driver is not ready!
+mpp[15744]: mpp_platform: client 3 driver is not ready!
+mpp[15744]: mpp_info: mpp version: unknown mpp version for missing VCS info
+mpp[15744]: mpp_info: mpp version: unknown mpp version for missing VCS info
+mpp[15744]: mpp_info: mpp version: unknown mpp version for missing VCS info
+mpp[15744]: mpp: unable to create enc vp8 for soc rk3568 unsupported
+mpp[15744]: mpp_info: mpp version: unknown mpp version for missing VCS info
+                    Boolean. Default: false
+  
+  crop-rectangle      : The crop rectangle ('<x, y, width, height>')
+                        flags: writable
+                        Default: "<  >"
+                        GstValueArray of GValues of type "gint" Write only
+  
+  discard-corrupted-frames: Discard frames marked as corrupted instead of outputting them
+                        flags: readable, writable
+                        Boolean. Default: false
+  
+  fast-mode           : Enable MPP fast decode mode
+                        flags: readable, writable
+                        Boolean. Default: true
+  
+  format              : Prefered output format
+                        flags: readable, writable
+                        Enum "GstMppVideoDecFormat" Default: 0, "auto"
+                           (0): auto             - Auto
+                           (23): NV12             - NV12
+                           (24): NV21             - NV21
+                           (2): I420             - I420
+                           (3): YV12             - YV12
+                           (51): NV16             - NV16
+                           (60): NV61             - NV61
+                           (30): BGR16            - BGR565
+                           (15): RGB              - RGB
+                           (16): BGR              - BGR
+                           (11): RGBA             - RGBA8888
+                           (12): BGRA             - BGRA8888
+                           (7): RGBx             - RGBX8888
+                           (8): BGRx             - BGRX8888
+  
+  height              : Height (0 = original)
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 2147483647 Default: 0 
+  
+  ignore-error        : Ignore MPP decode errors
+                        flags: readable, writable
+                        Boolean. Default: true
+  
+  max-errors          : Max consecutive decoder errors before returning flow error
+                        flags: readable, writable
+                        Integer. Range: -1 - 2147483647 Default: -1 
+  
+  min-force-key-unit-interval: Minimum interval between force-keyunit requests in nanoseconds
+                        flags: readable, writable
+                        Unsigned Integer64. Range: 0 - 18446744073709551615 Default: 0 
+  
+  name                : The name of the object
+                        flags: readable, writable
+                        String. Default: "mppvideodec0"
+  
+  parent              : The parent of the object
+                        flags: readable, writable
+                        Object of type "GstObject"
+  
+  qos                 : Handle Quality-of-Service events from downstream
+                        flags: readable, writable
+                        Boolean. Default: true
+  
+  rotation            : Rotation
+                        flags: readable, writable
+                        Enum "GstMppDecRotation" Default: 0, "0"
+                           (0): 0                - Rotate 0
+                           (90): 90               - Rotate 90
+                           (180): 180              - Rotate 180
+                           (270): 270              - Rotate 270
+  
+  width               : Width (0 = original)
+                        flags: readable, writable
+                        Unsigned Integer. Range: 0 - 2147483647 Default: 0 
+  
+
+## ldd /usr/lib/aarch64-linux-gnu/gstreamer-1.0/libgstrockchipmpp.so
+	linux-vdso.so.1 (0x0000007f95f4d000)
+	libgstreamer-1.0.so.0 => /lib/aarch64-linux-gnu/libgstreamer-1.0.so.0 (0x0000007f95d40000)
+	libgobject-2.0.so.0 => /lib/aarch64-linux-gnu/libgobject-2.0.so.0 (0x0000007f95cb0000)
+	libglib-2.0.so.0 => /lib/aarch64-linux-gnu/libglib-2.0.so.0 (0x0000007f95b30000)
+	libgstvideo-1.0.so.0 => /lib/aarch64-linux-gnu/libgstvideo-1.0.so.0 (0x0000007f95a30000)
+	libgstallocators-1.0.so.0 => /lib/aarch64-linux-gnu/libgstallocators-1.0.so.0 (0x0000007f95a00000)
+	libgstpbutils-1.0.so.0 => /lib/aarch64-linux-gnu/libgstpbutils-1.0.so.0 (0x0000007f959a0000)
+	librockchip_mpp.so.1 => /usr/local/lib/librockchip_mpp.so.1 (0x0000007f95720000)
+	librga.so => /usr/local/lib/librga.so (0x0000007f956d0000)
+	libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000007f95510000)
+	/lib/ld-linux-aarch64.so.1 (0x0000007f95f10000)
+	libgmodule-2.0.so.0 => /lib/aarch64-linux-gnu/libgmodule-2.0.so.0 (0x0000007f954e0000)
+	libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000007f95430000)
+	libunwind.so.8 => /lib/aarch64-linux-gnu/libunwind.so.8 (0x0000007f953e0000)
+	libdw.so.1 => /lib/aarch64-linux-gnu/libdw.so.1 (0x0000007f95310000)
+	libffi.so.8 => /lib/aarch64-linux-gnu/libffi.so.8 (0x0000007f952e0000)
+	libpcre2-8.so.0 => /lib/aarch64-linux-gnu/libpcre2-8.so.0 (0x0000007f95230000)
+	libgstbase-1.0.so.0 => /lib/aarch64-linux-gnu/libgstbase-1.0.so.0 (0x0000007f95180000)
+	liborc-0.4.so.0 => /lib/aarch64-linux-gnu/liborc-0.4.so.0 (0x0000007f950a0000)
+	libdrm.so.2 => /lib/aarch64-linux-gnu/libdrm.so.2 (0x0000007f95060000)
+	libgstaudio-1.0.so.0 => /lib/aarch64-linux-gnu/libgstaudio-1.0.so.0 (0x0000007f94fc0000)
+	libgsttag-1.0.so.0 => /lib/aarch64-linux-gnu/libgsttag-1.0.so.0 (0x0000007f94f60000)
+	libstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000007f94cd0000)
+	libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000007f94c90000)
+	libpthread.so.0 => /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000007f94c60000)
+	liblzma.so.5 => /lib/aarch64-linux-gnu/liblzma.so.5 (0x0000007f94c10000)
+	libelf.so.1 => /lib/aarch64-linux-gnu/libelf.so.1 (0x0000007f94bd0000)
+	libz.so.1 => /lib/aarch64-linux-gnu/libz.so.1 (0x0000007f94b90000)
+	libzstd.so.1 => /lib/aarch64-linux-gnu/libzstd.so.1 (0x0000007f94ad0000)
+	libbz2.so.1.0 => /lib/aarch64-linux-gnu/libbz2.so.1.0 (0x0000007f94aa0000)
+
+## command -v mpi_dec_test
+/usr/local/bin/mpi_dec_test
+
+## command -v mpp_info_test
+/usr/local/bin/mpp_info_test
+
+## test /dev/mpp_service
+present=true path=/dev/mpp_service
+readable=true path=/dev/mpp_service
+writable=true path=/dev/mpp_service
+
+## test /dev/rga
+present=true path=/dev/rga
+readable=true path=/dev/rga
+writable=true path=/dev/rga
+
+## test /dev/dma_heap/system
+present=true path=/dev/dma_heap/system
+readable=true path=/dev/dma_heap/system
+writable=true path=/dev/dma_heap/system
+
+
+================================================================================
+Prepare EdgeVision same-frame directory
+================================================================================
+
+================================================================================
+Capture h264 frame 1
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h264_1.jpg
+
+================================================================================
+Protocol same-frame h264 1
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h264_1.jpg
+FRAME_OK True SHAPE (432, 768, 3)
+FIRST_RESPONSE_JSON {"camera_id": "a650a349-63df-4a07-9a99-b2d4b7a18e23", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:43:42.014902+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id a650a349-63df-4a07-9a99-b2d4b7a18e23 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h264_1.jpg
+
+================================================================================
+Compare-model same-frame h264 1
+================================================================================
+[0;93m2026-06-23 11:43:45.164620279 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:43:45.164840015 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.996078
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-69.4553 max=705.049
+ONNX max confidence before NMS=0.216795
+ONNX candidate count before NMS=51
+ONNX detections after NMS=12
+ONNX class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=254
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-68 max=708
+RKNN max confidence before NMS=0.207886
+RKNN candidate count before NMS=49
+RKNN detections after NMS=12
+RKNN class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+I RKNN: [11:43:47.897] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:43:47.898] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:43:47.900] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:43:47.982] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_1.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h264 1
+================================================================================
+[0;93m2026-06-23 11:43:55.982464146 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:43:55.982812981 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.996078
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-69.4553 max=705.049
+ONNX max confidence before NMS=0.216795
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=254
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-68 max=708
+RKNN max confidence before NMS=0.207886
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:43:58.547] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:43:58.548] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:43:58.550] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:43:58.612] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_1.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h264 frame 2
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h264_2.jpg
+
+================================================================================
+Protocol same-frame h264 2
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h264_2.jpg
+FRAME_OK True SHAPE (432, 768, 3)
+FIRST_RESPONSE_JSON {"camera_id": "a650a349-63df-4a07-9a99-b2d4b7a18e23", "detections": [{"box": [4, 16, 286, 425], "confidence": 0.271240234375, "class": 0}], "count": 1, "visible_count": 1, "processed_at": "2026-06-23T11:44:14.698026+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 1 DETECTIONS 1
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id a650a349-63df-4a07-9a99-b2d4b7a18e23 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h264_2.jpg
+
+================================================================================
+Compare-model same-frame h264 2
+================================================================================
+[0;93m2026-06-23 11:44:18.468722467 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:44:18.468914093 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-48.9473 max=652.378
+ONNX max confidence before NMS=0.278849
+ONNX candidate count before NMS=20
+ONNX detections after NMS=3
+ONNX class IDs=[0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-41.8125 max=653
+RKNN max confidence before NMS=0.27124
+RKNN candidate count before NMS=22
+RKNN detections after NMS=3
+RKNN class IDs=[0, 0, 0]
+I RKNN: [11:44:20.563] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:44:20.563] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:44:20.565] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:44:20.625] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_2.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h264 2
+================================================================================
+[0;93m2026-06-23 11:44:27.617989690 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:44:27.618259483 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-48.9473 max=652.378
+ONNX max confidence before NMS=0.278849
+ONNX candidate count before NMS=1
+ONNX detections after NMS=1
+ONNX class IDs=[0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-41.8125 max=653
+RKNN max confidence before NMS=0.27124
+RKNN candidate count before NMS=1
+RKNN detections after NMS=1
+RKNN class IDs=[0]
+I RKNN: [11:44:30.208] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:44:30.208] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:44:30.210] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:44:30.273] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_2.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h264 frame 3
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h264_3.jpg
+
+================================================================================
+Protocol same-frame h264 3
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h264_3.jpg
+FRAME_OK True SHAPE (432, 768, 3)
+FIRST_RESPONSE_JSON {"camera_id": "a650a349-63df-4a07-9a99-b2d4b7a18e23", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:44:49.030069+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id a650a349-63df-4a07-9a99-b2d4b7a18e23 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h264_3.jpg
+
+================================================================================
+Compare-model same-frame h264 3
+================================================================================
+[0;93m2026-06-23 11:44:53.283068652 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:44:53.283334361 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-45.976 max=647.892
+ONNX max confidence before NMS=0.103131
+ONNX candidate count before NMS=39
+ONNX detections after NMS=8
+ONNX class IDs=[0, 0, 0, 0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-41.875 max=649
+RKNN max confidence before NMS=0.101746
+RKNN candidate count before NMS=40
+RKNN detections after NMS=8
+RKNN class IDs=[0, 0, 0, 0, 0, 0, 0, 0]
+I RKNN: [11:44:55.873] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:44:55.873] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:44:55.875] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:44:55.933] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_3.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h264 3
+================================================================================
+[0;93m2026-06-23 11:45:04.716540147 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:45:04.716814607 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-45.976 max=647.892
+ONNX max confidence before NMS=0.103131
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-41.875 max=649
+RKNN max confidence before NMS=0.101746
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:45:07.663] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:45:07.663] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:45:07.665] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:45:07.730] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_3.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h264 frame 4
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h264_4.jpg
+
+================================================================================
+Protocol same-frame h264 4
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h264_4.jpg
+FRAME_OK True SHAPE (432, 768, 3)
+FIRST_RESPONSE_JSON {"camera_id": "a650a349-63df-4a07-9a99-b2d4b7a18e23", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:45:30.377087+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id a650a349-63df-4a07-9a99-b2d4b7a18e23 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h264_4.jpg
+
+================================================================================
+Compare-model same-frame h264 4
+================================================================================
+[0;93m2026-06-23 11:45:36.863413504 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:45:36.863736381 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-37.9093 max=670.585
+ONNX max confidence before NMS=0.163124
+ONNX candidate count before NMS=72
+ONNX detections after NMS=24
+ONNX class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-31.3438 max=676
+RKNN max confidence before NMS=0.163818
+RKNN candidate count before NMS=76
+RKNN detections after NMS=27
+RKNN class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+I RKNN: [11:45:41.752] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:45:41.752] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:45:41.754] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:45:41.819] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_4.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h264 4
+================================================================================
+[0;93m2026-06-23 11:45:59.932048650 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:45:59.932330401 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-37.9093 max=670.585
+ONNX max confidence before NMS=0.163124
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-31.3438 max=676
+RKNN max confidence before NMS=0.163818
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:46:03.559] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:46:03.559] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:46:03.561] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:46:03.647] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_4.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h264 frame 5
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h264_5.jpg
+
+================================================================================
+Protocol same-frame h264 5
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h264_5.jpg
+FRAME_OK True SHAPE (432, 768, 3)
+FIRST_RESPONSE_JSON {"camera_id": "a650a349-63df-4a07-9a99-b2d4b7a18e23", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:46:31.318435+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id a650a349-63df-4a07-9a99-b2d4b7a18e23 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h264_5.jpg
+
+================================================================================
+Compare-model same-frame h264 5
+================================================================================
+[0;93m2026-06-23 11:46:41.114103909 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:46:41.114425036 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-63.8328 max=658.156
+ONNX max confidence before NMS=0.17967
+ONNX candidate count before NMS=130
+ONNX detections after NMS=36
+ONNX class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-59.3125 max=660
+RKNN max confidence before NMS=0.179321
+RKNN candidate count before NMS=129
+RKNN detections after NMS=36
+RKNN class IDs=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+I RKNN: [11:46:45.686] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:46:45.687] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:46:45.688] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:46:45.744] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_5.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h264 5
+================================================================================
+[0;93m2026-06-23 11:47:07.652395190 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:47:07.653075651 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(432, 768, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=1
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-63.8328 max=658.156
+ONNX max confidence before NMS=0.17967
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=255
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-59.3125 max=660
+RKNN max confidence before NMS=0.179321
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:47:10.889] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:47:10.889] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:47:10.891] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:47:10.956] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h264_5.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h265 frame 1
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h265_1.jpg
+
+================================================================================
+Protocol same-frame h265 1
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h265_1.jpg
+FRAME_OK True SHAPE (1080, 1920, 3)
+FIRST_RESPONSE_JSON {"camera_id": "aa8494d5-038b-4ed0-9dad-d1483664aa56", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:47:37.171946+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id aa8494d5-038b-4ed0-9dad-d1483664aa56 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h265_1.jpg
+
+================================================================================
+Compare-model same-frame h265 1
+================================================================================
+[0;93m2026-06-23 11:47:46.227327796 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:47:46.227612463 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.988235
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.7951 max=776.824
+ONNX max confidence before NMS=0.0698157
+ONNX candidate count before NMS=8
+ONNX detections after NMS=5
+ONNX class IDs=[0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=252
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.6875 max=777
+RKNN max confidence before NMS=0.0667114
+RKNN candidate count before NMS=8
+RKNN detections after NMS=5
+RKNN class IDs=[0, 0, 0, 0, 0]
+I RKNN: [11:47:49.696] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:47:49.696] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:47:49.698] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:47:49.760] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_1.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h265 1
+================================================================================
+[0;93m2026-06-23 11:48:01.980793980 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:48:01.981084773 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.988235
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.7951 max=776.824
+ONNX max confidence before NMS=0.0698157
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=252
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.6875 max=777
+RKNN max confidence before NMS=0.0667114
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:48:05.388] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:48:05.388] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:48:05.390] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:48:05.449] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_1.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h265 frame 2
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h265_2.jpg
+
+================================================================================
+Protocol same-frame h265 2
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h265_2.jpg
+FRAME_OK True SHAPE (1080, 1920, 3)
+FIRST_RESPONSE_JSON {"camera_id": "aa8494d5-038b-4ed0-9dad-d1483664aa56", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:48:29.239730+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id aa8494d5-038b-4ed0-9dad-d1483664aa56 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h265_2.jpg
+
+================================================================================
+Compare-model same-frame h265 2
+================================================================================
+[0;93m2026-06-23 11:48:34.784543147 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:48:34.784848815 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.996078
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8009 max=777.142
+ONNX max confidence before NMS=0.0695848
+ONNX candidate count before NMS=8
+ONNX detections after NMS=4
+ONNX class IDs=[0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=254
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.75 max=777
+RKNN max confidence before NMS=0.0671997
+RKNN candidate count before NMS=8
+RKNN detections after NMS=4
+RKNN class IDs=[0, 0, 0, 0]
+I RKNN: [11:48:38.332] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:48:38.333] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:48:38.334] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:48:38.393] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_2.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h265 2
+================================================================================
+[0;93m2026-06-23 11:48:46.475339243 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:48:46.475557702 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.996078
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8009 max=777.142
+ONNX max confidence before NMS=0.0695848
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=254
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.75 max=777
+RKNN max confidence before NMS=0.0671997
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:48:51.027] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:48:51.027] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:48:51.030] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:48:51.096] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_2.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h265 frame 3
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h265_3.jpg
+
+================================================================================
+Protocol same-frame h265 3
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h265_3.jpg
+FRAME_OK True SHAPE (1080, 1920, 3)
+FIRST_RESPONSE_JSON {"camera_id": "aa8494d5-038b-4ed0-9dad-d1483664aa56", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:49:11.669907+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id aa8494d5-038b-4ed0-9dad-d1483664aa56 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h265_3.jpg
+
+================================================================================
+Compare-model same-frame h265 3
+================================================================================
+[0;93m2026-06-23 11:49:16.229908908 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:49:16.230170534 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.984314
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8722 max=777.314
+ONNX max confidence before NMS=0.106453
+ONNX candidate count before NMS=9
+ONNX detections after NMS=5
+ONNX class IDs=[0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=251
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.8125 max=777
+RKNN max confidence before NMS=0.1026
+RKNN candidate count before NMS=9
+RKNN detections after NMS=5
+RKNN class IDs=[0, 0, 0, 0, 0]
+I RKNN: [11:49:19.362] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:49:19.362] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:49:19.366] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:49:19.428] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_3.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h265 3
+================================================================================
+[0;93m2026-06-23 11:49:28.368919547 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:49:28.369428216 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.984314
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8722 max=777.314
+ONNX max confidence before NMS=0.106453
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=251
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.8125 max=777
+RKNN max confidence before NMS=0.1026
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:49:33.302] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:49:33.302] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:49:33.304] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:49:33.375] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_3.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h265 frame 4
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h265_4.jpg
+
+================================================================================
+Protocol same-frame h265 4
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h265_4.jpg
+FRAME_OK True SHAPE (1080, 1920, 3)
+FIRST_RESPONSE_JSON {"camera_id": "aa8494d5-038b-4ed0-9dad-d1483664aa56", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:49:57.141913+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id aa8494d5-038b-4ed0-9dad-d1483664aa56 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h265_4.jpg
+
+================================================================================
+Compare-model same-frame h265 4
+================================================================================
+[0;93m2026-06-23 11:50:03.317161721 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:50:03.317479348 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.992157
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.805 max=775.741
+ONNX max confidence before NMS=0.0609677
+ONNX candidate count before NMS=7
+ONNX detections after NMS=4
+ONNX class IDs=[0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=253
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.7188 max=776
+RKNN max confidence before NMS=0.057312
+RKNN candidate count before NMS=7
+RKNN detections after NMS=4
+RKNN class IDs=[0, 0, 0, 0]
+I RKNN: [11:50:07.136] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:50:07.136] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:50:07.138] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:50:07.209] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_4.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h265 4
+================================================================================
+[0;93m2026-06-23 11:50:19.944996980 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:50:19.945309648 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.992157
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.805 max=775.741
+ONNX max confidence before NMS=0.0609677
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=253
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-13.7188 max=776
+RKNN max confidence before NMS=0.057312
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:50:23.119] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:50:23.119] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:50:23.121] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:50:23.181] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_4.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Capture h265 frame 5
+================================================================================
+CAPTURE_OK True FRAME_NONE False OUT /tmp/shiriki_same_frame_20260623T114258Z/h265_5.jpg
+
+================================================================================
+Protocol same-frame h265 5
+================================================================================
+FRAME_SOURCE image:/tmp/shiriki_same_frame_20260623T114258Z/h265_5.jpg
+FRAME_OK True SHAPE (1080, 1920, 3)
+FIRST_RESPONSE_JSON {"camera_id": "aa8494d5-038b-4ed0-9dad-d1483664aa56", "detections": [], "count": 0, "visible_count": 0, "processed_at": "2026-06-23T11:50:37.905560+00:00", "frame_id": 1, "analytics_type": "visible_count", "semantics": "visible person detections in current processed frame, not visitors, not occupancy"}
+TCP_COUNT 0 DETECTIONS 0
+RUN /usr/local/bin/python3 /app/tcp_frame_receiver_diag.py --camera-id aa8494d5-038b-4ed0-9dad-d1483664aa56 --host 127.0.0.1 --port 9000 --timeout 45.0 --frame-file /tmp/shiriki_same_frame_20260623T114258Z/h265_5.jpg
+
+================================================================================
+Compare-model same-frame h265 5
+================================================================================
+[0;93m2026-06-23 11:50:42.366754400 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:50:42.367363402 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.992157
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8024 max=778.041
+ONNX max confidence before NMS=0.113596
+ONNX candidate count before NMS=17
+ONNX detections after NMS=8
+ONNX class IDs=[0, 0, 0, 0, 0, 0, 0, 0]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=253
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-14.375 max=778
+RKNN max confidence before NMS=0.108765
+RKNN candidate count before NMS=17
+RKNN detections after NMS=8
+RKNN class IDs=[0, 0, 0, 0, 0, 0, 0, 0]
+I RKNN: [11:50:46.383] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:50:46.383] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:50:46.386] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:50:46.463] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_5.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.01 --iou 0.45 --skip 0
+
+================================================================================
+Compare-model production threshold same-frame h265 5
+================================================================================
+[0;93m2026-06-23 11:50:54.068647002 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card1": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+[0;93m2026-06-23 11:50:54.068926420 [W:onnxruntime:Default, device_discovery.cc:283 GetGpuDevices] Failed to detect devices under "/sys/class/drm/card0": device_discovery.cc:93 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"[m
+W rknn-toolkit-lite2 version: 2.3.2
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+LD_PRELOAD_REDIRECT /proc/device-tree/compatible -> /host-device-tree-compatible
+W Query dynamic range failed. Ret code: RKNN_ERR_MODEL_INVALID. (If it is a static shape RKNN model, please ignore the above warning message.)
+input frame shape=(1080, 1920, 3) dtype=uint8 min=0 max=255
+RKNN host detect: compatible_node_path=/host-device-tree-compatible
+RKNN host detect: compatible_node_read=ok bytes=46
+RKNN init: model_path=/app/rknn_weights/base_model_batch1.rknn
+RKNN init: detected_host=RK3566_RK3568
+RKNN init: env_RKNN_TARGET=rk3568
+RKNN target selected from env RKNN_TARGET=rk3568
+RKNN runtime config: selected_target=rk3568
+RKNN init: selected_target=rk3568
+RKNN init: runtime_mode=default_linux_aarch64_rk356x
+RKNN init: rk356x_targetless_compat=True
+RKNNLite detection shim precheck: linux_aarch64=True runtime_mode=default_linux_aarch64_rk356x target_or_host_match=True
+RKNNLite detection shim target proof source=env:RKNN_TARGET=rk3568
+RKNNLite detection shim active=True target=rk3568
+RKNN init: detection_shim_active=True
+RKNNLite detection shim call passthrough: args_count=1 kwargs_count=0
+RKNNLite detection shim original detection result=RK3568
+RKNNLite detection shim result=RK3568
+RKNN init: success
+ONNX preprocessed shape=(1, 3, 640, 640) dtype=float32 min=0 max=0.992157
+ONNX raw output shape=(1, 5, 8400) dtype=float32 min=-13.8024 max=778.041
+ONNX max confidence before NMS=0.113596
+ONNX candidate count before NMS=0
+ONNX detections after NMS=0
+ONNX class IDs=[]
+RKNN preprocessed shape=(1, 640, 640, 3) dtype=uint8 min=0 max=253
+RKNN raw output shape=(1, 5, 8400) dtype=float32 min=-14.375 max=778
+RKNN max confidence before NMS=0.108765
+RKNN candidate count before NMS=0
+RKNN detections after NMS=0
+RKNN class IDs=[]
+I RKNN: [11:50:57.026] RKNN Runtime Information, librknnrt version: 2.3.2 (429f97ae6b@2025-04-09T09:09:27)
+I RKNN: [11:50:57.026] RKNN Driver Information, version: 0.9.3
+I RKNN: [11:50:57.028] RKNN Model Information, version: 6, toolkit version: 2.3.2(compiler version: 2.3.2 (e045de294f@2025-04-07T19:48:25)), target: RKNPU lite, target platform: rk3568, framework name: ONNX, framework layout: NCHW, model inference type: static_shape
+W RKNN: [11:50:57.089] query RKNN_QUERY_INPUT_DYNAMIC_RANGE error, rknn model is static shape type, please export rknn with dynamic_shapes
+RUN /usr/local/bin/python3 /app/scripts/compare_onnx_rknn_frame.py --source /tmp/shiriki_same_frame_20260623T114258Z/h265_5.jpg --onnx /app/onnx_weights/base_model.onnx --rknn /app/rknn_weights/base_model_batch1.rknn --nc 1 --conf 0.25 --iou 0.45 --skip 0
+
+================================================================================
+Final worker status
+================================================================================
+"continuous_in_flight_camera_ids":["a650a349-63df-4a07-9a99-b2d4b7a18e23"
+"continuous_last_timeout_camera_id":""
+"continuous_stale":false
+"edgevision_reachable":true
+"global_worker_state":"live"
+"last_inference_error":""
+"watchdog_status":"healthy"
+
+{"age_seconds":2,"camera_id":"a650a349-63df-4a07-9a99-b2d4b7a18e23","count":1,"count_stabilized":false,"detections":[{"class":0,"confidence":0.384521484375,"box":[1,478,209,635]}],"enabled":true,"freshness_status":"live","has_live_reading":true,"inference_attempted":true,"last_attempt_at":"2026-06-23T11:51:01.674654082Z","last_detection_count":1,"last_error":"","last_failure_stage":"inference_success_with_detections","last_success_at":"2026-06-23T11:51:01.672978449Z","raw_person_count":1,"reading_age_seconds":2,"source":"continuous","stable_person_count":1,"stale":false,"stale_after_seconds":30,"status":"enabled","updated_at":"2026-06-23T11:51:01Z","zero_drop_confirmations":0}
+
+{"age_seconds":5,"camera_id":"aa8494d5-038b-4ed0-9dad-d1483664aa56","count":0,"count_stabilized":false,"detections":[],"enabled":true,"freshness_status":"live","has_live_reading":true,"inference_attempted":true,"last_attempt_at":"2026-06-23T11:51:01.673138575Z","last_detection_count":0,"last_error":"","last_failure_stage":"inference_success_zero_detections","last_success_at":"2026-06-23T11:50:58.797467648Z","raw_person_count":0,"reading_age_seconds":5,"source":"continuous","stable_person_count":0,"stale":false,"stale_after_seconds":30,"status":"enabled","updated_at":"2026-06-23T11:50:58Z","zero_drop_confirmations":0}
+
+
+================================================================================
+Package same-frame images inside EdgeVision pod
+================================================================================
+
+================================================================================
+Copy same-frame artifacts to host
+================================================================================
+tar: Removing leading `/' from member names
+
+Finished: 2026-06-23T11:51:09+00:00
+Log file: /tmp/shiriki_same_frame_forensics_20260623T114258Z.log
+Artifact file: /tmp/shiriki_same_frame_artifacts_20260623T114258Z.tar.gz
