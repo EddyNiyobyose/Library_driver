@@ -1,0 +1,142 @@
+;
+; Archive created at 2026-07-20 09:10:28 UTC
+;     dbname: hms_db
+;     TOC Entries: 131
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 17.5
+;     Dumped by pg_dump version: 17.5
+;
+;
+; Selected TOC Entries:
+;
+229; 1259 240156 TABLE public customers admin
+234; 1259 240191 TABLE public events admin
+232; 1259 240177 TABLE public floors admin
+241; 1259 240238 TABLE public inventory_products admin
+242; 1259 240245 TABLE public inventory_shipments admin
+243; 1259 336419 TABLE public kds_order_changes admin
+239; 1259 240222 TABLE public kds_orders admin
+225; 1259 240117 TABLE public menu_available_times admin
+227; 1259 240131 TABLE public menu_products admin
+224; 1259 240110 TABLE public menus admin
+223; 1259 240103 TABLE public message_notifications admin
+222; 1259 240096 TABLE public message_responses admin
+221; 1259 240089 TABLE public messages admin
+240; 1259 240231 TABLE public order_counters admin
+238; 1259 240214 TABLE public order_items admin
+237; 1259 240213 SEQUENCE public order_items_item_id_seq admin
+3633; 0 0 SEQUENCE OWNED BY public order_items_item_id_seq admin
+235; 1259 240198 TABLE public orders admin
+218; 1259 240068 TABLE public organization_admins admin
+217; 1259 240061 TABLE public organizations admin
+236; 1259 240206 TABLE public payments admin
+226; 1259 240124 TABLE public products admin
+228; 1259 240149 TABLE public reservations admin
+231; 1259 240170 TABLE public rooms admin
+230; 1259 240163 TABLE public system_configs admin
+233; 1259 240184 TABLE public tables admin
+219; 1259 240075 TABLE public users admin
+220; 1259 240082 TABLE public website_users admin
+3355; 2604 240217 DEFAULT public order_items item_id admin
+3612; 0 240156 TABLE DATA public customers admin
+3617; 0 240191 TABLE DATA public events admin
+3615; 0 240177 TABLE DATA public floors admin
+3624; 0 240238 TABLE DATA public inventory_products admin
+3625; 0 240245 TABLE DATA public inventory_shipments admin
+3626; 0 336419 TABLE DATA public kds_order_changes admin
+3622; 0 240222 TABLE DATA public kds_orders admin
+3608; 0 240117 TABLE DATA public menu_available_times admin
+3610; 0 240131 TABLE DATA public menu_products admin
+3607; 0 240110 TABLE DATA public menus admin
+3606; 0 240103 TABLE DATA public message_notifications admin
+3605; 0 240096 TABLE DATA public message_responses admin
+3604; 0 240089 TABLE DATA public messages admin
+3623; 0 240231 TABLE DATA public order_counters admin
+3621; 0 240214 TABLE DATA public order_items admin
+3618; 0 240198 TABLE DATA public orders admin
+3601; 0 240068 TABLE DATA public organization_admins admin
+3600; 0 240061 TABLE DATA public organizations admin
+3619; 0 240206 TABLE DATA public payments admin
+3609; 0 240124 TABLE DATA public products admin
+3611; 0 240149 TABLE DATA public reservations admin
+3614; 0 240170 TABLE DATA public rooms admin
+3613; 0 240163 TABLE DATA public system_configs admin
+3616; 0 240184 TABLE DATA public tables admin
+3602; 0 240075 TABLE DATA public users admin
+3603; 0 240082 TABLE DATA public website_users admin
+3634; 0 0 SEQUENCE SET public order_items_item_id_seq admin
+3401; 2606 240162 CONSTRAINT public customers customers_pkey admin
+3419; 2606 240197 CONSTRAINT public events events_pkey admin
+3411; 2606 240183 CONSTRAINT public floors floors_pkey admin
+3445; 2606 240244 CONSTRAINT public inventory_products inventory_products_pkey admin
+3450; 2606 240251 CONSTRAINT public inventory_shipments inventory_shipments_pkey admin
+3452; 2606 336425 CONSTRAINT public kds_order_changes kds_order_changes_pkey admin
+3437; 2606 240230 CONSTRAINT public kds_orders kds_orders_pkey admin
+3386; 2606 240123 CONSTRAINT public menu_available_times menu_available_times_pkey admin
+3394; 2606 240138 CONSTRAINT public menu_products menu_products_pkey admin
+3383; 2606 240116 CONSTRAINT public menus menus_pkey admin
+3380; 2606 240109 CONSTRAINT public message_notifications message_notifications_pkey admin
+3377; 2606 240102 CONSTRAINT public message_responses message_responses_pkey admin
+3374; 2606 240095 CONSTRAINT public messages messages_pkey admin
+3440; 2606 240237 CONSTRAINT public order_counters order_counters_pkey admin
+3433; 2606 240221 CONSTRAINT public order_items order_items_pkey admin
+3426; 2606 240205 CONSTRAINT public orders orders_pkey admin
+3362; 2606 240074 CONSTRAINT public organization_admins organization_admins_pkey admin
+3359; 2606 240067 CONSTRAINT public organizations organizations_pkey admin
+3430; 2606 240212 CONSTRAINT public payments payments_pkey admin
+3390; 2606 240130 CONSTRAINT public products products_pkey admin
+3399; 2606 240155 CONSTRAINT public reservations reservations_pkey admin
+3409; 2606 240176 CONSTRAINT public rooms rooms_pkey admin
+3405; 2606 240169 CONSTRAINT public system_configs system_configs_pkey admin
+3417; 2606 240190 CONSTRAINT public tables tables_pkey admin
+3366; 2606 240081 CONSTRAINT public users users_pkey admin
+3369; 2606 240088 CONSTRAINT public website_users website_users_pkey admin
+3402; 1259 240271 INDEX public idx_customers_email admin
+3403; 1259 240270 INDEX public idx_customers_organization admin
+3420; 1259 240278 INDEX public idx_events_organization admin
+3412; 1259 240274 INDEX public idx_floors_organization admin
+3441; 1259 240289 INDEX public idx_inventory_products_barcode admin
+3442; 1259 240290 INDEX public idx_inventory_products_category admin
+3443; 1259 240288 INDEX public idx_inventory_products_organization admin
+3446; 1259 240293 INDEX public idx_inventory_shipments_date admin
+3447; 1259 240291 INDEX public idx_inventory_shipments_organization admin
+3448; 1259 240292 INDEX public idx_inventory_shipments_product admin
+3434; 1259 240285 INDEX public idx_kds_orders_order admin
+3435; 1259 240286 INDEX public idx_kds_orders_status admin
+3384; 1259 240262 INDEX public idx_menu_available_times_menu admin
+3391; 1259 240265 INDEX public idx_menu_products_menu admin
+3392; 1259 240266 INDEX public idx_menu_products_product admin
+3381; 1259 240261 INDEX public idx_menus_organization admin
+3375; 1259 240259 INDEX public idx_message_responses_msg admin
+3370; 1259 240256 INDEX public idx_messages_org admin
+3371; 1259 240258 INDEX public idx_messages_room admin
+3372; 1259 240257 INDEX public idx_messages_status admin
+3378; 1259 240260 INDEX public idx_notifications_org admin
+3438; 1259 240287 INDEX public idx_order_counters_org_date admin
+3431; 1259 240284 INDEX public idx_order_items_kds admin
+3421; 1259 240279 INDEX public idx_orders_organization admin
+3422; 1259 240280 INDEX public idx_orders_payment_status admin
+3423; 1259 335796 INDEX public idx_orders_status admin
+3424; 1259 240281 INDEX public idx_orders_table admin
+3360; 1259 240255 INDEX public idx_org_admins_org admin
+3427; 1259 240282 INDEX public idx_payments_order admin
+3428; 1259 240283 INDEX public idx_payments_organization admin
+3387; 1259 240264 INDEX public idx_products_category admin
+3388; 1259 240263 INDEX public idx_products_organization admin
+3395; 1259 240267 INDEX public idx_reservations_organization admin
+3396; 1259 240268 INDEX public idx_reservations_table admin
+3397; 1259 240269 INDEX public idx_reservations_time admin
+3406; 1259 240272 INDEX public idx_rooms_organization admin
+3407; 1259 240273 INDEX public idx_rooms_waiter admin
+3413; 1259 240276 INDEX public idx_tables_floor admin
+3414; 1259 240275 INDEX public idx_tables_organization admin
+3415; 1259 240277 INDEX public idx_tables_status admin
+3363; 1259 240253 INDEX public idx_users_email admin
+3364; 1259 240252 INDEX public idx_users_organization admin
+3367; 1259 240254 INDEX public idx_website_users_email admin
+3453; 2606 240139 FK CONSTRAINT public menu_products menu_products_menu_id_fkey admin
+3454; 2606 240144 FK CONSTRAINT public menu_products menu_products_product_id_fkey admin
