@@ -1,0 +1,1 @@
+ared-kubectl: bin=/usr/local/bin/kubectl real=/usr/local/bin/k3s kubeconfig=/mnt/data/server/cred/admin.kubeconfig args=-n camera-solution exec edgevision-ai-toolkit2-8597598649-snjw8 -- env OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python3 /tmp/ared-person-accuracy-v2/run_evaluation.py --dataset /tmp/ared-person-accuracy-v2 --output /tmp/ared-person-accuracy-v2-results
